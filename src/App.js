@@ -1,39 +1,62 @@
 import { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-
   constructor() {
     super();
 
     this.state = {
-      name: { firstName: 'Ansel', lastName: 'Adams'},
-      company: 'Multiverse'
+      monsters: [],
+      searchField: ''
     };
   }
 
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((users) =>
+        this.setState(() => {
+          return { monsters: users };
+        })
+      );
+  }
+
+  handleInputChange = (event) => {
+    console.log(event.target.value);
+    this.setState(() => {
+      return { searchField: event.target.value };
+    });
+  }
+
   render() {
+    const { monsters, searchField } = this.state;
+    const { handleInputChange } = this;
+    
+    const filteredMonsters = monsters.filter((monster) => {
+      return monster.name.toLowerCase().includes(searchField.toLowerCase())
+    });
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Hi {this.state.name.firstName} {this.state.name.lastName}, I work at {this.state.company}
-          </p>
-          <button onClick={() => {
-            this.setState(() => {
-              return {
-                name: { firstName: 'agent', lastName: `o'chaos`}
-              }
-            }, () => {})
-            console.log('done');
-          }}>Change Name</button>
-        </header>
+        <h1>Monsters Rolodex</h1>
+        <input
+          className="search-box"
+          type="search"
+          placeholder="search monsters"
+          onChange={ handleInputChange }
+        />
+        <div>
+          {filteredMonsters.map((monster, index) => {
+            return (
+              <div key={index}>
+                <h1>{monster.name}</h1>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
-  
 }
 
 export default App;
