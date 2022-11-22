@@ -40,8 +40,8 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1>Monsters Rolodex</h1>
-        <SearchBox handleInputChange={handleInputChange} /> 
+        <h1 className="app-title">Monsters Rolodex</h1>
+        <SearchBox handleInputChange={handleInputChange} placeholder='search monsters' className='search-box' /> 
         <MonsterList filteredMonsters={filteredMonsters} />
       </div>
     );

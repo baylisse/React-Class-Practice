@@ -1,14 +1,14 @@
 import { Component } from "react";
+import MonsterCard from '../monster-card/MonsterCard.js'
+import './MonsterList.css';
 
 class MonsterList extends Component {
   render() {
     return (
-      <div>
+      <div className='card-list' >
         {this.props.filteredMonsters.map((monster, index) => {
           return (
-            <div key={index}>
-              <h1>{monster.name}</h1>
-            </div>
+            <MonsterCard key={index} monster={monster} />
           );
         })}
       </div>
